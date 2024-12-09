@@ -20,9 +20,17 @@ const calculatePasswordStrength = (password: string): number => {
 };
 
 // Password Strength Indicator Component
-const PasswordStrengthIndicator: React.FC<{ password: string }> = ({ password }) => {
+const PasswordStrengthIndicator: React.FC<{ password: string }> = ({
+  password,
+}) => {
   const strength = calculatePasswordStrength(password);
-  const strengthLabels = ["Very Weak", "Weak", "Medium", "Strong", "Very Strong"];
+  const strengthLabels = [
+    "Very Weak",
+    "Weak",
+    "Medium",
+    "Strong",
+    "Very Strong",
+  ];
   const strengthColors = ["red", "orange", "yellow", "green", "darkgreen"];
 
   return (
@@ -35,7 +43,8 @@ const PasswordStrengthIndicator: React.FC<{ password: string }> = ({ password })
         }}
       />
       <p className="text-sm mt-1 text-gray-600">
-        Strength: <span className="font-semibold">{strengthLabels[strength]}</span>
+        Strength:{" "}
+        <span className="font-semibold">{strengthLabels[strength]}</span>
       </p>
     </div>
   );
@@ -51,6 +60,7 @@ interface FormValues {
 
 const Signup: React.FC = () => {
   const [password, setPassword] = useState("");
+  const [formSuccess, setFormSuccess] = useState(false);
 
   // Yup validation schema
   const validationSchema = Yup.object().shape({
@@ -75,6 +85,8 @@ const Signup: React.FC = () => {
   ) => {
     console.log(values);
     resetForm();
+    setFormSuccess(true);
+    setTimeout(() => setFormSuccess(false), 3000);
   };
 
   return (
@@ -83,6 +95,11 @@ const Signup: React.FC = () => {
         <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">
           Create Your Account
         </h2>
+        {formSuccess && (
+          <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
+            <p>Sign Up Successful!</p>
+          </div>
+        )}
         <Formik
           initialValues={{
             name: "",
@@ -96,7 +113,9 @@ const Signup: React.FC = () => {
           {({ handleChange }) => (
             <Form noValidate className="space-y-4">
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Name</label>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Name
+                </label>
                 <Field
                   type="text"
                   name="name"
@@ -109,7 +128,9 @@ const Signup: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Email</label>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Email
+                </label>
                 <Field
                   type="email"
                   name="email"
@@ -122,7 +143,9 @@ const Signup: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Password</label>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Password
+                </label>
                 <Field
                   type="password"
                   name="password"
@@ -140,7 +163,9 @@ const Signup: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Confirm Password</label>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Confirm Password
+                </label>
                 <Field
                   type="password"
                   name="confirmPassword"
